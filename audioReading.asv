@@ -1,0 +1,15 @@
+[birdsAudioData, birdsSampleRate] = audioread('Birds.wav');
+[speechAudioData, speechSampleRate] = audioread('Speech.wav');
+[drumAudioData, drumSampleRate] = audioread('Drum.wav');
+
+% audioData is mxn matrix, where m is number of audio samples and n is
+% # of audio channels
+
+size(birdsAudioData,2)       % 1 channels -> stereo
+
+size(speechAudioData,2)     % 1 channel -> mono
+
+size(drumAudioData,2)       % 2 channels -> stereo
+%TODO: add columns to make it a single channel
+sound(drumAudioData, drumSampleRate);
+monoDrumAudioData = drumAudioData(:,1) + drumAudioData(:,2)
