@@ -5,7 +5,7 @@
 % audioData is mxn matrix, where m is number of audio samples and n is
 % # of audio channels
 
-size(birdsAudioData,2)       % 1 channels -> stereo
+size(birdsAudioData,2)       % 1 channels -> mono
 sound(birdsAudioData, birdsSampleRate);
 audiowrite('newBirdsAudioData.wav', birdsAudioData, birdsSampleRate);
 
