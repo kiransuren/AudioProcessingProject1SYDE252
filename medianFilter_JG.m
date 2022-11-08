@@ -1,4 +1,4 @@
-function F = medianFilter(window_size,data)
+function F = medianFilter_JG(window_size,data)
     y = [];
     for i=1:length(data)
         section = [];
