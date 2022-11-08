@@ -1,14 +1,21 @@
-function y = medianFilter(x,L)
-    medianWindow = zeros(L,1);
-
-    if(mod(L,2) == 0)
-        %even, split weighting between two middle numbers
-        medianWindow(L/2) = 0.5;
-        medianWindow((L/2)+1) = 0.5;
-    else
-        %odd, impulse at middle
-        medianWindow(round(L/2)) = 1;
+function F = medianFilter(window_size,data)
+    y = [];
+    for i=1:length(data)
+        section = [];
+        if i < window_size        
+            for k=1:(window_size-i)
+                section(end+1,1) = 0;
+            end
+            for m=1:i
+                section(end+1,1) = data(m);
+            end
+        end
+        if i >= window_size
+            for j=(i-window_size+1):i
+                section(end+1,1) = data(j);
+            end
+        end
+        y(i,1) = median(section);
     end
-    y = conv(medianWindow,x);
-    
+    F = y;
 end
