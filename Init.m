@@ -20,4 +20,5 @@ new=resample(next,p,q);
 x=1:length(new);
 plot(x,new);
 grid on
+end
 

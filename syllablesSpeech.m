@@ -1,56 +1,40 @@
-[speechAudioData, speechSampleRate] = audioread('Speech.wav');
+speechAudioData = Init('Speech.wav');
 
-size(speechAudioData,2)     % 1 channel -> mono
-%sound(speechAudioData(1:33388), speechSampleRate);
+y = meanFilter(speechAudioData, 20);
 
-
-windowSize = 25;
-b = (1/windowSize) * ones(1, windowSize);
-a = 1;
-y = filter(b,a,speechAudioData);
-
-peakList = peakDetector(y, 4);
-peakList = peakList';
-peakList = filter(b,a,peakList);
-peakList = filter(b,a,peakList);
-peakList = filter(b,a,peakList);
-peakList = filter(b,a,peakList);
-peakList = filter(b,a,peakList);
-peakList = filter(b,a,peakList);
-peakList = filter(b,a,peakList);
-peakList = filter(b,a,peakList);
-peakList = filter(b,a,peakList);
-peakList = filter(b,a,peakList);
+rawPeakList = peakDetector(y, 50)';
+peakList = meanFilter(rawPeakList,20);
+peakList = meanFilter(peakList,21);
 finalList = findpeaks(peakList);
-%peakList = peakList'
 
-p = 0;
-indexlist = [];
-largest = 0;
-big = false;
-for i =1:size(peakList,1)
-    if(peakList(i) > largest && peakList(i) > 0.005)
-        largest = peakList(i);
-        big = true;
-    elseif(peakList(i) < largest && big == true)
-        p = p+1;
-        indexlist(end+1) = i;
-        big = false;
-        largest=0;
-    end
-end
-
-subplot(3,1,1)
-xlabel('t')
-ylabel('audioform')
+subplot(5,1,1)
 plot(speechAudioData)
-
-subplot(3,1,2)
 xlabel('t')
-ylabel('audioform')
+ylabel('Audioform')
+title('Raw Speech Audio Data')
+
+subplot(5,1,2)
+plot(y)
+xlabel('t')
+ylabel('Audioform')
+title('Mean Filtered Speech Audio Data')
+
+subplot(5,1,3)
+plot(rawPeakList)
+xlabel('t')
+ylabel('Audioform')
+title('Raw Peak Regions')
+
+subplot(5,1,4)
 plot(peakList)
+xlabel('Peak Index')
+ylabel('Value')
+title('Filtered Peak Regions')
 
-subplot(3,1,3)
-xlabel('t')
-ylabel('audioform')
+subplot(5,1,5)
 plot(finalList)
+xlabel('Peak Index')
+ylabel('Value')
+title('Peak Values')
+
+fprintf("\nThe number of syllables detected in this audio clip is %d\n", size(finalList,1));

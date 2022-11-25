@@ -1,0 +1,48 @@
+speechAudioData = Init('Catpiss.m4a');
+sound(speechAudioData, 16e3);
+
+y = meanFilter(speechAudioData, );
+
+%peakList = peakDetector(y, 50)';
+peakList = findpeaks(y);
+%peakList = meanFilter(peakList,25);
+%peakList = meanFilter(peakList,24);
+finalList = findpeaks(peakList);
+%peakList = peakList'
+
+p = 0;
+indexlist = [];
+largest = 0;
+big = false;
+for i =1:size(peakList,1)
+    if(peakList(i) > largest && peakList(i) > 0.005)
+        largest = peakList(i);
+        big = true;
+    elseif(peakList(i) < largest && big == true)
+        p = p+1;
+        indexlist(end+1) = i;
+        big = false;
+        largest=0;
+    end
+end
+
+subplot(4,1,1)
+xlabel('t')
+ylabel('audioform')
+plot(speechAudioData)
+
+subplot(4,1,2)
+xlabel('t')
+ylabel('audioform')
+plot(peakList)
+
+subplot(4,1,3)
+xlabel('t')
+ylabel('audioform')
+plot(finalList)
+
+subplot(4,1,4)
+xlabel('t')
+ylabel('audioform')
+plot(y)
+
