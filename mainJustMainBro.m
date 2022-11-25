@@ -1,9 +1,22 @@
 % bpm('Drum.wav', 10)
+resampled_birds = Init("Birds.wav");
+resampled_drum = Init("Drum.wav");
+resampled_speech = Init("Speech.wav");
 
+%% Determining best window size by listening to the audio samples
+%sound(meanFilter(Init('Birds.wav'), 15), 16e3);
+%sound(medianFilter(15,Init('Birds.wav')), 16e3);
+%sound(weighted_avg(Init('Birds.wav'), 14), 16e3);
+
+%sound(meanFilter(Init('Drum.wav'), 25), 16e3);
+%sound(medianFilter(27,Init('Drum.wav')), 16e3);
+%sound(weighted_avg(Init('Drum.wav'), 13), 16e3);
+
+%sound(meanFilter(Init('Speech.wav'), 25), 16e3);
+%sound(medianFilter(23,Init('Speech.wav')), 16e3);
+%sound(weighted_avg_shreya(Init('Speech.wav'), 22), 16e3);
 
 %% Determining which filter to use for silent regions detection
-resampled_birds = Init("Birds.wav"); 
-
 % Selecting a filter 
 % figure;
 % subplot(4,1,1)
@@ -64,7 +77,7 @@ result4 = medianFilter(resampled_birds,10);
 % title("Original Birds Audio");
 % 
 % subplot(3,1,2);
-% result6 = silenceDetection(resampled_birds,10,0.015);
+result6 = silenceDetection(resampled_birds,10,0.015);
 % plot(result6);
 % xlabel("Sampling Rate");
 % ylabel("Amplitude");
@@ -76,16 +89,24 @@ result4 = medianFilter(resampled_birds,10);
 % ylabel("Amplitude");
 % title("Birds Audio with Median Filter of Window Size 10");
 
-%% Determining best window size by listening to the audio samples
-% sound(meanFilter(Init('Birds.wav'), 15), 16e3);
-%sound(medianFilter(15,Init('Birds.wav')), 16e3);
-%sound(weighted_avg(Init('Birds.wav'), 14), 16e3);
+% Selecting the best threshold voltage for silence detection algorithm
+figure;
+subplot(3,1,1);
+result7 = silenceDetection(resampled_birds,10,0.014);
+plot(result7);
+xlabel("Sampling Rate");
+ylabel("Amplitude");
+title("Birds Audio with Silence Detection of 0.014 for Threshold");
 
+subplot(3,1,2);
+plot(result6);
+xlabel("Sampling Rate");
+ylabel("Amplitude");
+title("Birds Audio with Silence Detection of 0.015 for Threshold");
 
-%sound(meanFilter(Init('Drum.wav'), 25), 16e3);
-%sound(medianFilter(27,Init('Drum.wav')), 16e3);
-%sound(weighted_avg(Init('Drum.wav'), 13), 16e3);
-
-%sound(meanFilter(Init('Speech.wav'), 25), 16e3);
-%sound(medianFilter(23,Init('Speech.wav')), 16e3);
-%sound(weighted_avg_shreya(Init('Speech.wav'), 22), 16e3);
+subplot(3,1,3);
+result6 = silenceDetection(resampled_birds,10,0.016);
+plot(result6);
+xlabel("Sampling Rate");
+ylabel("Amplitude");
+title("Birds Audio with Silence Detection of 0.016 for Threshold");

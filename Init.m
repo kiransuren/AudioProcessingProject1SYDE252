@@ -1,23 +1,29 @@
-function [new] = Init(filename)
-clc;
-close all;
-[prev, spl_rt] = audioread(filename);
-disp(spl_rt)
-[m,n] = size(prev);
-if n==2
-    next=prev(:,1)+prev(:,2);
-else
-    next = prev;
-end
+function [result] = Init(filename) 
+    % Read sound file and determine sampling rate
+    [data, spl_rt] = audioread(filename);
+    disp(spl_rt) % Sampling rate
+    
+    % Adjust input sound to mono if it is stereo
+    [m,n] = size(data);
+    if n==2
+        new_data=data(:,1)+data(:,2);
+    else
+        new_data = data;
+    end
+    
+    % Play modified sound
+    sound(new_data);
+    
+    % Write modified sound to a new file
+    newfilename  = "New" + filename;
+    audiowrite(newfilename,new_data,spl_rt);
 
-audiowrite(filename,prev,spl_rt);
-
-[p,q] = rat(16e3/spl_rt);
-new=resample(next,p,q);
-%sound(new,16e3);
-
-% x=1:length(new);
-% plot(x,new);
-% grid on
+    % Plot audio
+    % plot(new_data);
+    % grid on
+    
+    % Adjust sampling rate to 16KHz
+    [p,q] = rat(16e3/spl_rt);
+    result=resample(new_data,p,q);
 end
 
