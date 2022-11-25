@@ -1,0 +1,88 @@
+% bpm('Drum.wav', 10)
+
+
+%% Determining which filter to use for silent regions detection
+resampled_birds = Init("Birds.wav"); 
+
+% Selecting a filter 
+figure;
+subplot(4,1,1)
+plot(resampled_birds);
+xlabel("Sampling Rate");
+ylabel("Amplitude");
+title("Original Birds Audio");
+
+subplot(4,1,2)
+result1 = meanFilter(resampled_birds,15);
+plot(result1);
+xlabel("Sampling Rate");
+ylabel("Amplitude");
+title("Birds Audio with Mean Filter");
+ 
+subplot(4,1,3)
+result2 = medianFilter(resampled_birds,20);
+plot(result2);
+xlabel("Sampling Rate");
+ylabel("Amplitude");
+title("Birds Audio with Median Filter");
+
+subplot(4,1,4)
+result3 = weighted_avg(resampled_birds,14);
+plot(result3);
+xlabel("Sampling Rate");
+ylabel("Amplitude");
+title("Birds Audio with Gaussian Filter");
+
+% Selecting a window size for the median filter
+figure;
+subplot(3,1,1)
+plot(resampled_birds);
+xlabel("Sampling Rate");
+ylabel("Amplitude");
+title("Original Birds Audio");
+
+subplot(3,1,2)
+result4 = medianFilter(resampled_birds,10);
+plot(result4);
+xlabel("Sampling Rate");
+ylabel("Amplitude");
+title("Birds Audio with Median Filter of Window Size 10");
+
+subplot(3,1,3)
+result5 = medianFilter(resampled_birds,20);
+plot(result5);
+xlabel("Sampling Rate");
+ylabel("Amplitude");
+title("Birds Audio with Median Filter of Window Size 20");
+
+figure;
+subplot(3,1,1);
+plot(resampled_birds);
+
+subplot(3,1,2);
+result6 = silenceDetection(resampled_birds,10,0.015);
+plot(result6);
+xlabel("Sampling Rate");
+ylabel("Amplitude");
+title("Birds Audio with Median Filter of Window Size 20");
+
+subplot(3,1,3);
+plot(result4);
+xlabel("Sampling Rate");
+ylabel("Amplitude");
+title("Birds Audio with Median Filter of Window Size 10");
+
+
+%% Determining best window size by listening to the audio samples
+% sound(meanFilter(Init('Birds.wav'), 15), 16e3);
+%sound(medianFilter(15,Init('Birds.wav')), 16e3);
+%sound(weighted_avg(Init('Birds.wav'), 14), 16e3);
+
+
+%sound(meanFilter(Init('Drum.wav'), 25), 16e3);
+%sound(medianFilter(27,Init('Drum.wav')), 16e3);
+%sound(weighted_avg(Init('Drum.wav'), 13), 16e3);
+
+%sound(meanFilter(Init('Speech.wav'), 25), 16e3);
+%sound(medianFilter(23,Init('Speech.wav')), 16e3);
+%sound(weighted_avg_shreya(Init('Speech.wav'), 22), 16e3);

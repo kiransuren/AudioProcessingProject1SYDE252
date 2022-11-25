@@ -1,7 +1,6 @@
 function [new] = Init(filename)
 clc;
 close all;
-%filename='Drum.wav';
 [prev, spl_rt] = audioread(filename);
 disp(spl_rt)
 [m,n] = size(prev);
@@ -17,8 +16,8 @@ audiowrite(filename,prev,spl_rt);
 new=resample(next,p,q);
 %sound(new,16e3);
 
-x=1:length(new);
-plot(x,new);
-grid on
+% x=1:length(new);
+% plot(x,new);
+% grid on
 end
 
