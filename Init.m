@@ -19,7 +19,10 @@ function [result] = Init(filename)
     audiowrite(newfilename,new_data,spl_rt);
 
     % Plot audio
-    % plot(new_data);
+    %plot(new_data);
+    %xlabel("Sample Number (t)")
+    %ylabel("Audioform")
+    %title("Sound Waveform of "+filename)
     % grid on
     
     % Adjust sampling rate to 16KHz

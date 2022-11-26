@@ -1,38 +1,76 @@
 clc % Clear command window
 clear % Clear workspace
 %% Pre-processing audio samples
-resampled_birds = Init("Birds.wav");
-resampled_drum = Init("Drum.wav");
-resampled_speech = Init("Speech.wav");
+%resampled_birds = Init("Birds.wav");
+%resampled_drum = Init("Drum.wav");
+%resampled_speech = Init("Speech.wav");
 
 %% Beats Per Minute
 % bpm('Drum.wav', 10);
 
-%% Determining best window size by plotting the sum of absolute differences
-% window_sizes = 1 : 3 : 40;
-%  for k = 1 : length(window_sizes)
-% %     smoothedSignal = kirans_medianfilter(resampled_birds,window_sizes(k));
-%     smoothedSignal = medianFilter(window_sizes(k),resampled_birds);
-%     sad(k) = sum(abs(smoothedSignal - resampled_birds));
-%  end
-% subplot(4,1,4);
-% plot(window_sizes,sad, 'b*-', 'LineWidth', 2);
-% xlabel("Window Size");
-% ylabel("Sum of Absolute Differences");
-% title("Optimal Median Filter Window Size for Birds Audio")
+%% Find optimal window sizes for each filter
+% % Calculate SAD for each filter applied on Birds.wav
+% meanSADBirds = sad(@meanFilter, resampled_birds);
+% medianSADBirds = sad(@medianFilter, resampled_birds);
+% gaussSADBirds = sad(@weighted_avg, resampled_birds);
+% % Plot SAD's for Birds
+% subplot(3,1,1)
+% plot(meanSADBirds,'b*-', 'LineWidth', 2);
+% title('Mean Filter applied on Birds.wav')
+% xlabel("Window Size (L)")
+% ylabel("Sum of Absolute Differences")
+% subplot(3,1,2)
+% plot(medianSADBirds,'b*-', 'LineWidth', 2);
+% title('Median Filter applied on Birds.wav')
+% xlabel("Window Size (L)")
+% ylabel("Sum of Absolute Differences")
+% subplot(3,1,3)
+% plot(gaussSADBirds,'b*-', 'LineWidth', 2);
+% title('Gaussian Filter applied on Birds.wav')
+% xlabel("Window Size (L)")
+% ylabel("Sum of Absolute Differences")
 
-%% Determining best window size by listening to the audio samples
-%sound(meanFilter(Init('Birds.wav'), 15), 16e3);
-%sound(medianFilter(15,Init('Birds.wav')), 16e3);
-%sound(weighted_avg(Init('Birds.wav'), 14), 16e3);
+% % Calculate SAD for each filter applied on Drum.wav
+% meanSADDrum = sad(@meanFilter, resampled_drum);
+% medianSADDrum = sad(@medianFilter, resampled_drum);
+% gaussSADDrum = sad(@weighted_avg, resampled_drum);
+% % Plot SAD's for Drum
+% subplot(3,1,1)
+% plot(meanSADDrum,'b*-', 'LineWidth', 2);
+% title('Mean Filter applied on Drum.wav')
+% xlabel("Window Size (L)")
+% ylabel("Sum of Absolute Differences")
+% subplot(3,1,2)
+% plot(medianSADDrum,'b*-', 'LineWidth', 2);
+% title('Median Filter applied on Drum.wav')
+% xlabel("Window Size (L)")
+% ylabel("Sum of Absolute Differences")
+% subplot(3,1,3)
+% plot(gaussSADDrum,'b*-', 'LineWidth', 2);
+% title('Gaussian Filter applied on Drum.wav')
+% xlabel("Window Size (L)")
+% ylabel("Sum of Absolute Differences")
 
-%sound(meanFilter(Init('Drum.wav'), 25), 16e3);
-%sound(medianFilter(27,Init('Drum.wav')), 16e3);
-%sound(weighted_avg(Init('Drum.wav'), 13), 16e3);
-
-%sound(meanFilter(Init('Speech.wav'), 25), 16e3);
-%sound(medianFilter(23,Init('Speech.wav')), 16e3);
-%sound(weighted_avg_shreya(Init('Speech.wav'), 22), 16e3);
+% % Calculate SAD for each filter applied on Speech.wav
+% meanSADSpeech = sad(@meanFilter, resampled_speech);
+% medianSADSpeech = sad(@medianFilter, resampled_speech);
+% gaussSADSpeech = sad(@weighted_avg, resampled_speech);
+% % Plot SAD's for Speech
+% subplot(3,1,1)
+% plot(meanSADSpeech,'b*-', 'LineWidth', 2);
+% title('Mean Filter applied on Speech.wav')
+% xlabel("Window Size (L)")
+% ylabel("Sum of Absolute Differences")
+% subplot(3,1,2)
+% plot(medianSADSpeech,'b*-', 'LineWidth', 2);
+% title('Median Filter applied on Speech.wav')
+% xlabel("Window Size (L)")
+% ylabel("Sum of Absolute Differences")
+% subplot(3,1,3)
+% plot(gaussSADSpeech,'b*-', 'LineWidth', 2);
+% title('Gaussian Filter applied on Speech.wav')
+% xlabel("Window Size (L)")
+% ylabel("Sum of Absolute Differences")
 
 %% Silent Regions in Birds Audio
 % Determining which filter to use for silent regions detection
@@ -178,4 +216,11 @@ resampled_speech = Init("Speech.wav");
 % fprintf("\nThe number of syllables detected in this audio clip is %d\n", size(finalList,1));
 
 
-%% Finding BPM for Drums audio
+%% Define SAD calculator function
+function sadOut = sad(func, rawData)
+    windowArr = [1:1:30];    % initialize windows to test
+    for k = 1 : length(windowArr)
+        y = func(rawData, k);
+        sadOut(k) = sum(abs(y - rawData));
+    end
+end
