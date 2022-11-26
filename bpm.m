@@ -16,5 +16,8 @@ disp((count*60)/2)
 %plots the signals
 x=1:length(final);
 plot(final);
+xlabel("Sampling Rate");
+ylabel("Amplitude");
+title("Drum Audio with Mean Filter");
 grid on
 end

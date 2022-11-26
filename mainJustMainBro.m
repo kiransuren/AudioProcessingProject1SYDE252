@@ -6,7 +6,7 @@ clear % Clear workspace
 %resampled_speech = Init("Speech.wav");
 
 %% Beats Per Minute
-%bpm('Drum.wav', 5);
+%bpm('Drum.wav', 10);
 
 %% Find optimal window sizes for each filter
 % % Calculate SAD for each filter applied on Birds.wav
