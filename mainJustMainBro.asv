@@ -1,9 +1,12 @@
+clc % Clear command window
+clear % Clear workspace
 %% Pre-processing audio samples
 resampled_birds = Init("Birds.wav");
 resampled_drum = Init("Drum.wav");
 resampled_speech = Init("Speech.wav");
 
-% bpm('Drum.wav', 10)
+%% Beats Per Minute
+% bpm('Drum.wav', 10);
 
 %% Determining best window size by plotting the sum of absolute differences
 % window_sizes = 1 : 3 : 40;
@@ -12,7 +15,7 @@ resampled_speech = Init("Speech.wav");
 %     smoothedSignal = medianFilter(window_sizes(k),resampled_birds);
 %     sad(k) = sum(abs(smoothedSignal - resampled_birds));
 %  end
-%subplot(4,1,4);
+% subplot(4,1,4);
 % plot(window_sizes,sad, 'b*-', 'LineWidth', 2);
 % xlabel("Window Size");
 % ylabel("Sum of Absolute Differences");
@@ -83,7 +86,7 @@ resampled_speech = Init("Speech.wav");
 % ylabel("Amplitude");
 % title("Birds Audio with Median Filter of Window Size 20");
 
-% Using the silence detection algoirthm
+%% Using the silence detection algoirthm
 % figure;
 % subplot(3,1,1);
 % plot(resampled_birds);
