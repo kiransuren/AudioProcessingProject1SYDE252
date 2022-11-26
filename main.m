@@ -19,7 +19,7 @@ clear % Clear workspace
 % weighted_birds = weighted_avg(resampled_speech,22);
 
 %% Beats Per Minute
-% bpm('Drum.wav', 10);
+% bpm(resampled_drum, 10);
 
 %% Find optimal window sizes for each filter
 % % Calculate SAD for each filter applied on Birds.wav
