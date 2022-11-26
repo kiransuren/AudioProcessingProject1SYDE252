@@ -68,7 +68,10 @@ result4 = medianFilter(resampled_birds,10);
 % ylabel("Amplitude");
 % title("Birds Audio with Median Filter of Window Size 20");
 
-% Using the silence detection algoirthm
+%% Finding number of syllables in speech audio
+syllablesSpeech();
+
+%% Using the silence detection algoirthm
 % figure;
 % subplot(3,1,1);
 % plot(resampled_birds);
