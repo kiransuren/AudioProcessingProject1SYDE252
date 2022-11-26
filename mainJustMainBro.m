@@ -6,7 +6,7 @@ clear % Clear workspace
 %resampled_speech = Init("Speech.wav");
 
 %% Beats Per Minute
-% bpm('Drum.wav', 10);
+%bpm('Drum.wav', 5);
 
 %% Find optimal window sizes for each filter
 % % Calculate SAD for each filter applied on Birds.wav
@@ -217,10 +217,10 @@ clear % Clear workspace
 
 
 %% Define SAD calculator function
-function sadOut = sad(func, rawData)
-    windowArr = [1:1:30];    % initialize windows to test
-    for k = 1 : length(windowArr)
-        y = func(rawData, k);
-        sadOut(k) = sum(abs(y - rawData));
-    end
-end
+% function sadOut = sad(func, rawData)
+%     windowArr = [1:1:30];    % initialize windows to test
+%     for k = 1 : length(windowArr)
+%         y = func(rawData, k);
+%         sadOut(k) = sum(abs(y - rawData));
+%     end
+% end
